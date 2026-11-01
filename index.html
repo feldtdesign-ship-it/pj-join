@@ -67,6 +67,9 @@ form{margin-top:26px;display:grid;gap:14px}
 .found.open .inner{transform:rotateY(180deg)}
 .found .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:20px}
 .found .front{background:var(--ink);color:var(--white)}
+.found .front.art{padding:0;background:var(--paper)}
+.found .front.art img{width:100%;height:100%;object-fit:cover}
+.hero.card{margin:0 0 22px}
 .found .front .big{font-family:var(--serif);font-size:34px;font-style:italic}
 .found .back{background:var(--paper);border:1px solid var(--ink);transform:rotateY(180deg)}
 .found .back .big{font-family:var(--serif);font-size:clamp(30px,8vw,42px);line-height:1}
@@ -140,10 +143,10 @@ footer p{font:11px/1.6 var(--mono);color:var(--stone);letter-spacing:.04em}
 
   <!-- 1 · sign up -->
   <section data-step="1" class="on">
+    <div class="hero card"><img src="assets/img/lf-card.jpg" alt="A worn yellow fare card reading Lost and Found, with PJO in the corner circle"></div>
     <p class="label"><span class="dot"></span>Members</p>
-    <h1>Get in <em>first.</em></h1>
-    <p class="lede">You only hear from us when something opens. New runs, the Lost &amp; Found, and the codes PJ hides around town.</p>
-    <div class="hero"><img src="assets/img/hero.jpg" alt="Layer Cake of New York tee"></div>
+    <h1>Get your <em>card.</em></h1>
+    <p class="lede">Every member gets a Lost &amp; Found card. Open it when you sign up to see what you found. After that, you only hear from us when something opens: new runs and the codes PJ hides around town.</p>
     <form id="join" novalidate>
       <div class="field"><label for="email">Email <i>needed</i></label><input id="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
       <div class="field"><label for="ig">Instagram <i>optional</i></label><input id="ig" type="text" placeholder="@yourhandle" autocomplete="off"></div>
@@ -152,10 +155,10 @@ footer p{font:11px/1.6 var(--mono);color:var(--stone);letter-spacing:.04em}
       <div class="field"><label for="bday">Birthday month <i>optional</i></label>
         <select id="bday"><option value="">Pick a month</option><option>January</option><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option><option>July</option><option>August</option><option>September</option><option>October</option><option>November</option><option>December</option></select></div>
       <p class="err" id="err">Add an email to get in.</p>
-      <button class="btn" type="submit">Get in</button>
+      <button class="btn" type="submit">Get my card</button>
       <p class="small">Only the email is needed. No spam, no selling your info.</p>
     </form>
-    <div class="note"><b>Why:</b> one step, ten seconds. Only email is required because every extra required field loses sign-ups. Instagram is for giveaway shout-outs. Texts sit behind their own checkbox because the law requires clear consent, and the texting app isn't picked yet. Birthday month brings one extra email a year that people actually want.</div>
+    <div class="note"><b>Why:</b> the card leads the page so people see what they get before they type anything, and the button says it. <b>The card art is a MetroCard look-alike with PJO in the circle. Fine for this mock-up, but the MetroCard design belongs to the MTA, so check before it goes live.</b> One step, ten seconds. Only email is required because every extra required field loses sign-ups. Instagram is for giveaway shout-outs. Texts sit behind their own checkbox because the law requires clear consent, and the texting app isn't picked yet. Birthday month brings one extra email a year that people actually want.</div>
   </section>
 
   <!-- 2 · lost & found reveal -->
@@ -165,7 +168,7 @@ footer p{font:11px/1.6 var(--mono);color:var(--stone);letter-spacing:.04em}
     <p class="lede">Tap the card to see what.</p>
     <div class="found" id="found" tabindex="0" role="button" aria-label="Open your found item">
       <div class="inner">
-        <div class="face front"><span class="label" style="color:#bbb">Lost &amp; Found</span><span class="big">Tap to open</span><div class="strip"></div></div>
+        <div class="face front art"><img src="assets/img/lf-card.jpg" alt=""></div>
         <div class="face back"><span class="label" id="fLabel">Your find</span><span class="big" id="fBig">15% off</span><span><span class="code" id="fCode">FOUND-7Q2K</span></span></div>
       </div>
     </div>
