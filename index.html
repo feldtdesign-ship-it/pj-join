@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get on the list · PJ O'Rourke II</title>
+<meta name="description" content="Mock-up of the PJ O'Rourke II members sign-up: Lost &amp; Found reveal, PJ's Pick vote, Which stop are you? quiz.">
+<meta name="robots" content="noindex">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Get on the list · PJ O'Rourke II">
+<meta property="og:description" content="Mock-up of the members sign-up. You only hear from us when something opens.">
+<meta property="og:image" content="https://feldtdesign-ship-it.github.io/pj-join/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://feldtdesign-ship-it.github.io/pj-join/og.jpg">
+<style>
+@font-face{font-family:"Bodoni Moda";src:url(assets/bodoni-moda.woff2) format("woff2");font-weight:400 900;font-display:swap}
+@font-face{font-family:"Bodoni Moda";src:url(assets/bodoni-moda-italic.woff2) format("woff2");font-style:italic;font-weight:400 900;font-display:swap}
+@font-face{font-family:"Plex Mono";src:url(assets/plex-mono-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Plex Mono";src:url(assets/plex-mono-500.woff2) format("woff2");font-weight:500;font-display:swap}
+:root{
+  --white:#FFFFFF;--paper:#F6F5F2;--ink:#121212;--stone:#6E6C66;--hair:#E4E2DC;--yellow:#F2C200;
+  --serif:"Bodoni Moda",Didot,Georgia,serif;--sans:"Helvetica Neue",Helvetica,Arial,sans-serif;--mono:"Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--white);color:var(--ink);font:16px/1.5 var(--sans)}
+img{display:block;max-width:100%}
+button,input,select{font:inherit;color:inherit}
+.tag{position:fixed;top:12px;left:12px;z-index:20;background:var(--yellow);font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:7px 9px}
+.notes-toggle{position:fixed;top:12px;right:12px;z-index:20;background:var(--ink);color:var(--white);border:0;font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:7px 10px;cursor:pointer}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px}
+header{padding:64px 0 8px;text-align:center}
+header img{height:52px;width:auto;margin:0 auto}
+.steps{display:flex;justify-content:center;gap:6px;padding:20px 0 0}
+.steps span{width:28px;height:4px;background:var(--hair)}
+.steps span.on{background:var(--ink)}
+section{display:none;padding:28px 0 56px;animation:in .35s ease}
+section.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.label{font:500 11px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--stone)}
+.label .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--yellow);margin-right:7px;vertical-align:1px}
+h1,h2{font-family:var(--serif);font-weight:500;letter-spacing:-.01em;line-height:1.05}
+h1{font-size:clamp(40px,11vw,60px);margin:10px 0 12px}
+h2{font-size:clamp(32px,8.5vw,44px);margin:10px 0 12px}
+h1 em,h2 em{font-style:italic}
+.lede{font-size:18px;color:var(--ink);max-width:30em}
+.small{font-size:13px;color:var(--stone)}
+.hero{margin:24px 0 0;background:var(--paper);aspect-ratio:4/3;overflow:hidden}
+.hero img{width:100%;height:100%;object-fit:cover}
+form{margin-top:26px;display:grid;gap:14px}
+.field label{display:flex;justify-content:space-between;font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.field label i{font-style:normal;color:var(--stone)}
+.field input,.field select{width:100%;border:1px solid var(--ink);background:var(--white);padding:13px 12px;font-size:16px;border-radius:0;appearance:none}
+.field select{background:var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23121212'/%3E%3C/svg%3E") no-repeat right 14px center}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--stone)}
+.check input{width:18px;height:18px;margin-top:2px;accent-color:var(--ink);flex:none}
+.btn{display:block;width:100%;background:var(--ink);color:var(--white);border:0;padding:16px;font:500 13px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;text-align:center}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn:disabled{opacity:.35;cursor:default}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
+.err{color:#B3261E;font-size:13px;display:none}
+/* found card */
+.found{margin:24px 0 0;perspective:1200px;cursor:pointer;outline:none}
+.found .inner{position:relative;aspect-ratio:5/3;transition:transform .7s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d}
+.found.open .inner{transform:rotateY(180deg)}
+.found .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:20px}
+.found .front{background:var(--ink);color:var(--white)}
+.found .front .big{font-family:var(--serif);font-size:34px;font-style:italic}
+.found .back{background:var(--paper);border:1px solid var(--ink);transform:rotateY(180deg)}
+.found .back .big{font-family:var(--serif);font-size:clamp(30px,8vw,42px);line-height:1}
+.found.gold .back{background:var(--yellow);border-color:var(--yellow)}
+.strip{height:8px;background:radial-gradient(circle,var(--yellow) 2px,transparent 2.5px) 0 0/10px 8px}
+.code{font:500 15px/1 var(--mono);letter-spacing:.08em;border:1px dashed var(--ink);padding:9px 11px;display:inline-block;background:var(--white)}
+.member{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--ink);border-bottom:1px solid var(--hair);padding:14px 0;margin-top:24px}
+.member b{font:500 30px/1 var(--mono)}
+/* pick */
+.pick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
+.pick button{background:var(--paper);border:1px solid transparent;padding:0;cursor:pointer;text-align:left;position:relative}
+.pick button img{aspect-ratio:3/4;object-fit:cover;width:100%}
+.pick button .cap{padding:10px;font:500 11px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.pick button.voted{border-color:var(--ink)}
+.bar{height:6px;background:var(--hair);margin:0 10px 12px;position:relative;opacity:0;transition:opacity .3s}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--ink);width:0;transition:width .8s ease}
+.voted-all .bar{opacity:1}
+.pct{position:absolute;top:10px;right:10px;background:var(--ink);color:var(--white);font:500 13px/1 var(--mono);padding:6px 7px;opacity:0;transition:opacity .3s}
+.voted-all .pct{opacity:1}
+/* quiz */
+.q{margin-top:22px}
+.q p{font-family:var(--serif);font-size:22px;margin-bottom:10px}
+.opts{display:grid;gap:8px}
+.opts button{background:var(--white);border:1px solid var(--hair);padding:13px 14px;text-align:left;cursor:pointer;font-size:15px}
+.opts button:hover{border-color:var(--ink)}
+.opts button.on{background:var(--ink);color:var(--white);border-color:var(--ink)}
+.result{display:none;margin-top:24px;background:var(--paper)}
+.result.on{display:grid;grid-template-columns:40% 1fr}
+.result img{width:100%;height:100%;object-fit:cover;aspect-ratio:3/4}
+.result div{padding:16px}
+.result h3{font-family:var(--serif);font-weight:500;font-size:26px;line-height:1.05;margin:8px 0}
+/* friend */
+.link{display:flex;margin-top:20px;border:1px solid var(--ink)}
+.link span{flex:1;padding:13px 12px;font:14px/1.2 var(--mono);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.link button{border:0;background:var(--ink);color:var(--white);padding:0 16px;font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.ladder{margin-top:22px;border-top:1px solid var(--ink)}
+.ladder div{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--hair);font-size:15px}
+.ladder div span:first-child{font:500 13px/1.5 var(--mono)}
+/* lost & found */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
+.item{background:var(--paper)}
+.item img{aspect-ratio:1;object-fit:cover;width:100%}
+.item div{padding:10px}
+.item .t{font-size:13px;line-height:1.3}
+.item .p{display:flex;align-items:center;gap:8px;margin-top:8px;font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--stone)}
+.item .p i{display:inline-block;width:44px;height:10px;background:var(--ink)}
+.item .chip{display:inline-block;font:500 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:5px 6px;margin-bottom:6px;background:var(--white)}
+.item.one{border:1px dashed var(--ink);background:var(--white);display:flex;flex-direction:column;justify-content:center;min-height:100%}
+.item.one div{padding:16px}
+/* notes */
+.note{display:none;margin-top:22px;background:var(--paper);border-left:3px solid var(--yellow);padding:12px 14px;font:13px/1.55 var(--mono);color:var(--ink)}
+body.notes .note{display:block}
+.nav{display:flex;gap:10px;margin-top:28px}
+.nav .btn{flex:1}
+footer{border-top:1px solid var(--hair);padding:24px 0 40px;text-align:center}
+footer p{font:11px/1.6 var(--mono);color:var(--stone);letter-spacing:.04em}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--white);font:500 12px/1 var(--mono);padding:12px 14px;opacity:0;transition:opacity .25s;pointer-events:none}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){section{animation:none}.found .inner{transition:none}}
+</style>
+</head>
+<body>
+<div class="tag">Mock-up · nothing is sent</div>
+<button class="notes-toggle" id="notesBtn" aria-pressed="false">Notes for PJ</button>
+
+<div class="wrap">
+  <header>
+    <img src="assets/pj-sig-ink.png" alt="PJ O'Rourke II">
+    <div class="steps" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+  </header>
+
+  <!-- 1 · sign up -->
+  <section data-step="1" class="on">
+    <p class="label"><span class="dot"></span>Members</p>
+    <h1>Get in <em>first.</em></h1>
+    <p class="lede">You only hear from us when something opens. New runs, the Lost &amp; Found, and the codes PJ hides around town.</p>
+    <div class="hero"><img src="assets/img/hero.jpg" alt="Layer Cake of New York tee"></div>
+    <form id="join" novalidate>
+      <div class="field"><label for="email">Email <i>needed</i></label><input id="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+      <div class="field"><label for="ig">Instagram <i>optional</i></label><input id="ig" type="text" placeholder="@yourhandle" autocomplete="off"></div>
+      <div class="field"><label for="phone">Phone <i>optional</i></label><input id="phone" type="tel" autocomplete="tel" placeholder="(212) 555-0123"></div>
+      <label class="check"><input type="checkbox" id="texts"> <span>Text me when something opens. A few a month, reply STOP to quit. Msg &amp; data rates may apply.</span></label>
+      <div class="field"><label for="bday">Birthday month <i>optional</i></label>
+        <select id="bday"><option value="">Pick a month</option><option>January</option><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option><option>July</option><option>August</option><option>September</option><option>October</option><option>November</option><option>December</option></select></div>
+      <p class="err" id="err">Add an email to get in.</p>
+      <button class="btn" type="submit">Get in</button>
+      <p class="small">Only the email is needed. No spam, no selling your info.</p>
+    </form>
+    <div class="note"><b>Why:</b> one step, ten seconds. Only email is required because every extra required field loses sign-ups. Instagram is for giveaway shout-outs. Texts sit behind their own checkbox because the law requires clear consent, and the texting app isn't picked yet. Birthday month brings one extra email a year that people actually want.</div>
+  </section>
+
+  <!-- 2 · lost & found reveal -->
+  <section data-step="2">
+    <p class="label"><span class="dot"></span>You're in</p>
+    <h2>You <em>found</em> something.</h2>
+    <p class="lede">Tap the card to see what.</p>
+    <div class="found" id="found" tabindex="0" role="button" aria-label="Open your found item">
+      <div class="inner">
+        <div class="face front"><span class="label" style="color:#bbb">Lost &amp; Found</span><span class="big">Tap to open</span><div class="strip"></div></div>
+        <div class="face back"><span class="label" id="fLabel">Your find</span><span class="big" id="fBig">15% off</span><span><span class="code" id="fCode">FOUND-7Q2K</span></span></div>
+      </div>
+    </div>
+    <p class="small" id="fFine" style="margin-top:10px">Good on your first order. One per member.</p>
+    <div class="member"><span class="label">Member no.</span><b id="mNo">#0021</b></div>
+    <p class="small" style="margin-top:8px">The first 1,000 members get a number. Low numbers get first pick on every drop.</p>
+    <button class="btn ghost" id="again" style="margin-top:18px">Demo: open another card</button>
+    <div class="note"><b>Why:</b> the reveal replaces a plain "10% off" pop-up, which everyone has seen. The odds in this demo: 10% off (40 in 100), 15% (25), 20% (15), free sticker with first order (19), and <b>1 in 100 is a golden ticket for a free signed print</b>. A random prize needs a short rules line ("no purchase necessary"); small prizes keep it simple. Member numbers borrow from the numbered editions.</div>
+    <div class="nav"><button class="btn ghost" data-go="1">Back</button><button class="btn" data-go="3">Next</button></div>
+  </section>
+
+  <!-- 3 · PJ's pick -->
+  <section data-step="3">
+    <p class="label"><span class="dot"></span>PJ's Pick · this month</p>
+    <h2>Which one gets <em>printed?</em></h2>
+    <p class="lede">Two sketches. Members vote. The winner becomes a numbered run, and voters get first dibs.</p>
+    <div class="pick" id="pick">
+      <button data-v="a"><span class="pct" id="pa"></span><img src="assets/img/pick-a.jpg" alt="Picasso vs. Dali"><div class="bar"><i id="ba"></i></div><div class="cap">Sketch A · Picasso vs. Dalí</div></button>
+      <button data-v="b"><span class="pct" id="pb"></span><img src="assets/img/pick-b.jpg" alt="The Great Bambino"><div class="bar"><i id="bb"></i></div><div class="cap">Sketch B · The Great Bambino</div></button>
+    </div>
+    <p class="small" id="voteMsg" style="margin-top:12px">Tap one to vote.</p>
+    <div class="note"><b>Why:</b> a vote instead of an idea box. Members choose between two of PJ's own sketches, so nobody hands PJ an idea and nobody can claim one. It also tells PJ what sells before he prints. <b>In the real version PJ posts two new sketches; these two existing prints are stand-ins, and the percentages are demo numbers.</b></div>
+    <div class="nav"><button class="btn ghost" data-go="2">Back</button><button class="btn" data-go="4">Next</button></div>
+  </section>
+
+  <!-- 4 · which stop -->
+  <section data-step="4">
+    <p class="label"><span class="dot"></span>Quiz</p>
+    <h2>Which stop <em>are you?</em></h2>
+    <p class="lede">Three questions. Get matched to a piece.</p>
+    <div class="q" data-q="0"><p>Where do you come up for air?</p><div class="opts">
+      <button data-a="ev">Below 14th Street</button><button data-a="bk">Over the bridge, Brooklyn</button><button data-a="bx">Uptown or the Bronx</button><button data-a="train">Honestly, I live on the train</button></div></div>
+    <div class="q" data-q="1"><p>Pick a soundtrack.</p><div class="opts">
+      <button>A boombox on a stoop</button><button>A cassette you never returned</button><button>The 7th inning stretch</button><button>Delays, announcements, a guy with a saxophone</button></div></div>
+    <div class="q" data-q="2"><p>How loud do you wear it?</p><div class="opts">
+      <button>Quiet. People who know, know.</button><button>Medium. A conversation starter.</button><button>Loud. Strangers stop me.</button></div></div>
+    <div class="result" id="result"><img id="rImg" src="" alt=""><div><span class="label">Your stop</span><h3 id="rTitle"></h3><p class="small" id="rText"></p><p style="margin-top:12px"><span class="code">STOP-10</span></p></div></div>
+    <div class="note"><b>Why:</b> quizzes are one of the strongest list-builders right now, and every result gives a reason to shop. The quiz can also sit in front of the sign-up as a way in. No subway line symbols or colors anywhere, so there's no MTA trouble.</div>
+    <div class="nav"><button class="btn ghost" data-go="3">Back</button><button class="btn" data-go="5">Next</button></div>
+  </section>
+
+  <!-- 5 · bring a friend -->
+  <section data-step="5">
+    <p class="label"><span class="dot"></span>Bring a friend</p>
+    <h2>Two riders <em>beat</em> one.</h2>
+    <p class="lede">Your link. When a friend joins with it, you both get something.</p>
+    <div class="link"><span id="refLink">pjorourkeii.com/join?ref=0021</span><button id="copy">Copy</button></div>
+    <div class="ladder">
+      <div><span>1 friend</span><span>A sticker in your next order</span></div>
+      <div><span>3 friends</span><span>Early hour on the next drop</span></div>
+      <div><span>10 friends</span><span>A signed postcard</span></div>
+    </div>
+    <div class="note"><b>Why:</b> the cheapest way to grow the list is members bringing people like them. Rewards here are suggestions for PJ to set; none of them are promised anywhere yet.</div>
+    <div class="nav"><button class="btn ghost" data-go="4">Back</button><button class="btn" data-go="6">See what members get</button></div>
+  </section>
+
+  <!-- 6 · lost & found peek -->
+  <section data-step="6">
+    <p class="label"><span class="dot"></span>Members only</p>
+    <h2>Lost <em>&amp;</em> Found</h2>
+    <p class="lede">Last sizes, old runs and one-off vintage upgrades. Not on the public store. Opens when the email says so.</p>
+    <div class="grid">
+      <div class="item"><img src="assets/img/lf-1.jpg" alt=""><div><span class="chip">Last sizes</span><p class="t">Musk vs. Zuckerberg tee</p><p class="p">Member price <i></i></p></div></div>
+      <div class="item"><img src="assets/img/lf-2.jpg" alt=""><div><span class="chip">Old run</span><p class="t">Trump vs. Biden creme tee</p><p class="p">Member price <i></i></p></div></div>
+      <div class="item"><img src="assets/img/lf-3.jpg" alt=""><div><span class="chip">Last sizes</span><p class="t">Snorton Salt long sleeve</p><p class="p">Member price <i></i></p></div></div>
+      <div class="item"><img src="assets/img/lf-4.jpg" alt=""><div><span class="chip">Old run</span><p class="t">Apartments &amp; Inflation windbreaker</p><p class="p">Member price <i></i></p></div></div>
+      <div class="item"><img src="assets/img/lf-5.jpg" alt=""><div><span class="chip">Last sizes</span><p class="t">Selfies@Tiffany's bucket hat</p><p class="p">Member price <i></i></p></div></div>
+      <div class="item one"><div><span class="chip" style="background:var(--yellow)">1 of 1</span><p class="t" style="font-family:var(--serif);font-size:20px;line-height:1.15">Vintage upgrade</p><p class="small" style="margin-top:6px">PJ's reworked vintage pieces. Full price, one each.</p></div></div>
+    </div>
+    <div class="note"><b>Why:</b> old stock clears here, behind the member wall, so the public store never looks like a clearance bin and nobody learns to wait for sales. The vintage upgrades at full price make it feel like finds. <b>Items shown are examples from the current site; the real list comes from the locker count. Prices are hidden on purpose until PJ sets them.</b></div>
+    <div class="nav"><button class="btn ghost" data-go="5">Back</button><button class="btn" data-go="1">Start over</button></div>
+  </section>
+</div>
+
+<footer><p>Mock-up for PJ O'Rourke II · ideas, not live offers · nothing typed here is saved or sent · November 2026</p></footer>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var sections=[].slice.call(document.querySelectorAll('section'));
+  var bars=[].slice.call(document.querySelectorAll('.steps span'));
+  function go(n){
+    sections.forEach(function(s){s.classList.toggle('on',+s.dataset.step===n)});
+    bars.forEach(function(b,i){b.classList.toggle('on',i<n)});
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  go(1);
+  document.addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(b)go(+b.dataset.go)});
+
+  var notesBtn=document.getElementById('notesBtn');
+  notesBtn.addEventListener('click',function(){var on=document.body.classList.toggle('notes');notesBtn.setAttribute('aria-pressed',on);notesBtn.textContent=on?'Hide notes':'Notes for PJ'});
+
+  function toast(t){var el=document.getElementById('toast');el.textContent=t;el.classList.add('on');setTimeout(function(){el.classList.remove('on')},1600)}
+
+  // 1 · sign up (nothing leaves the page)
+  document.getElementById('join').addEventListener('submit',function(e){
+    e.preventDefault();
+    var v=document.getElementById('email').value.trim();
+    var ok=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    document.getElementById('err').style.display=ok?'none':'block';
+    if(ok){newMember();go(2)}
+  });
+
+  // 2 · found card
+  var found=document.getElementById('found');
+  var finds=[[40,'Your find','10% off','Good on your first order. One per member.'],[25,'Your find','15% off','Good on your first order. One per member.'],[15,'Your find','20% off','Good on your first order. One per member.'],[19,'Your find','Free sticker','Comes with your first order.'],[1,'Golden ticket','A free signed print','1 in 100 members. No purchase necessary. Official rules to come.']];
+  function pickFind(){var r=Math.random()*100,a=0;for(var i=0;i<finds.length;i++){a+=finds[i][0];if(r<a)return finds[i]}return finds[0]}
+  function rnd(n){var c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',s='';for(var i=0;i<n;i++)s+=c[Math.floor(Math.random()*c.length)];return s}
+  var memberNo=21;
+  function newMember(){
+    memberNo=14+Math.floor(Math.random()*60);
+    var f=pickFind(),gold=f[0]===1;
+    found.classList.remove('open');found.classList.toggle('gold',gold);
+    document.getElementById('fLabel').textContent=f[1];
+    document.getElementById('fBig').textContent=f[2];
+    document.getElementById('fCode').textContent=(gold?'GOLD-':'FOUND-')+rnd(4);
+    document.getElementById('fFine').textContent=f[3];
+    var no=('000'+memberNo).slice(-4);
+    document.getElementById('mNo').textContent='#'+no;
+    document.getElementById('refLink').textContent='pjorourkeii.com/join?ref='+no;
+  }
+  function flip(){found.classList.add('open')}
+  found.addEventListener('click',flip);
+  found.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();flip()}});
+  document.getElementById('again').addEventListener('click',function(){newMember();setTimeout(flip,350)});
+
+  // 3 · vote (demo numbers)
+  var pick=document.getElementById('pick'),voted=false;
+  pick.addEventListener('click',function(e){
+    var b=e.target.closest('button');if(!b||voted)return;voted=true;
+    b.classList.add('voted');pick.classList.add('voted-all');
+    var a=b.dataset.v==='a'?57:43;
+    document.getElementById('pa').textContent=a+'%';document.getElementById('pb').textContent=(100-a)+'%';
+    setTimeout(function(){document.getElementById('ba').style.width=a+'%';document.getElementById('bb').style.width=(100-a)+'%'},50);
+    document.getElementById('voteMsg').textContent='Vote counted. Voting closes Sunday; voters get first dibs on the run. (Demo numbers.)';
+  });
+
+  // 4 · quiz
+  var stops={
+    ev:['Below 14th','Wuhansel & Gretel. Loud, a little sideways, very downtown.','assets/img/stop-ev.jpg'],
+    bk:['Over the bridge','Brooklyn Cassettes. For the mixtape you still think about.','assets/img/stop-bk.jpg'],
+    bx:['Uptown','Bronx Bombers. For people who keep score.','assets/img/stop-bx.jpg'],
+    train:['End of the line','20,000 Leagues Under NYC. You know every tunnel by now.','assets/img/stop-train.jpg']
+  };
+  var answers={};
+  document.querySelectorAll('.q').forEach(function(q){
+    q.addEventListener('click',function(e){
+      var b=e.target.closest('button');if(!b)return;
+      q.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b)});
+      answers[q.dataset.q]=b.dataset.a||b.textContent;
+      if(Object.keys(answers).length===3){
+        var s=stops[answers[0]];
+        document.getElementById('rTitle').textContent=s[0];
+        document.getElementById('rText').textContent=s[1]+' Your code takes 10% off it.';
+        var img=document.getElementById('rImg');img.src=s[2];img.alt=s[0];
+        document.getElementById('result').classList.add('on');
+      }
+    });
+  });
+
+  // 5 · copy link
+  document.getElementById('copy').addEventListener('click',function(){
+    var t='https://'+document.getElementById('refLink').textContent;
+    var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');toast('Link copied (demo link)')}catch(e){toast('Copy failed')}
+    ta.remove();
+  });
+})();
+</script>
+</body>
+</html>
