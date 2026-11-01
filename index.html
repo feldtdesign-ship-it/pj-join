@@ -29,6 +29,7 @@ body{background:var(--white);color:var(--ink);font:16px/1.5 var(--sans)}
 img{display:block;max-width:100%}
 button,input,select{font:inherit;color:inherit}
 .tag{position:fixed;top:12px;left:12px;z-index:20;background:var(--yellow);font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:7px 9px}
+.tag a{color:inherit}
 .notes-toggle{position:fixed;top:12px;right:12px;z-index:20;background:var(--ink);color:var(--white);border:0;font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:7px 10px;cursor:pointer}
 .wrap{max-width:560px;margin:0 auto;padding:0 16px}
 header{padding:64px 0 8px;text-align:center}
@@ -132,7 +133,7 @@ footer p{font:11px/1.6 var(--mono);color:var(--stone);letter-spacing:.04em}
 </style>
 </head>
 <body>
-<div class="tag">Mock-up · nothing is sent</div>
+<div class="tag">Mock-up · V2 · <a href="v1.html">see V1</a></div>
 <button class="notes-toggle" id="notesBtn" aria-pressed="false">Notes for PJ</button>
 
 <div class="wrap">
